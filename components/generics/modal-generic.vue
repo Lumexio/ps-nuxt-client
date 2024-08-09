@@ -58,5 +58,6 @@ defineExpose({
   handleOpen,
   handleClose,
   valueItem,
+  isOpen
 });
 </script>

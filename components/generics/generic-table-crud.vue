@@ -13,25 +13,22 @@ const dialog = ref(null);
 const mode = ref('create'); // Track the mode of the modal
 const selectedItem = ref(null); // Track the selected item
 
-const { fetchQuery, createMutation, updateMutation, deleteMutation } = useGenericFetchQueries(props.endpoint);
+const { fetchQuery, createMutation, updateMutation, deleteMutation } = useGenericFetchQueries(props.endpoint, !dialog.value?.isOpen);
+const items = ref(fetchQuery.data || []);
 
 
-onMounted(() => {
-  const fet = fetchQuery.refetch();
-  console.log(fet);
-
-});
 function openModal(modalMode, item = null) {
   mode.value = modalMode;
   selectedItem.value = item;
   dialog.value.handleOpen();
 }
-
+const queryClient = useQueryClient();
 function updateQueryhandler() {
+
   updateMutation.mutate(selectedItem.value, {
-    onSuccess: () => {
+    onSettled: () => {
       dialog.value.handleClose();
-      fetchQuery.refetch();
+      queryClient.invalidateQueries({ queryKey: [props.endpoint] });
     },
     onError: (error) => {
       console.error('Failed to update data:', error);
@@ -41,9 +38,9 @@ function updateQueryhandler() {
 
 function deleteQueryhandler() {
   deleteMutation.mutate(selectedItem.value.id, {
-    onSuccess: () => {
+    onSettled: () => {
       dialog.value.handleClose();
-      fetchQuery.refetch();
+      queryClient.invalidateQueries({ queryKey: [props.endpoint] });
     },
     onError: (error) => {
       console.error('Failed to delete data:', error);
@@ -53,9 +50,9 @@ function deleteQueryhandler() {
 
 function createQueryhandler() {
   createMutation.mutate(dialog.value.valueItem, {
-    onSuccess: () => {
+    onSettled: () => {
       dialog.value.handleClose();
-      fetchQuery.refetch();
+      queryClient.invalidateQueries({ queryKey: [props.endpoint] });
     },
     onError: (error) => {
       console.error('Failed to create data:', error);
@@ -83,7 +80,7 @@ function createQueryhandler() {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="data in props.mockData" :key="data?.id">
+        <tr v-for="data in items" :key="data?.id">
           <td v-for="column in props.columns" :key="column?.id">
             {{ data[column?.key] }}
           </td>

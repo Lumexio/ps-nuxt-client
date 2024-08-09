@@ -14,7 +14,7 @@ export default {
         { id: 0, key: 'id', title: 'ID' },
         { id: 1, key: 'name', title: 'Name' },
       ],
-      endpoint: '/Crossbar',
+      endpoint: '/api/crossbars',
       formFields: [
         { label: 'name', value: '', rules: [v => !!v || 'Name is required'] },
         { label: 'description', value: '', rules: [v => !!v || 'Description is required'] },

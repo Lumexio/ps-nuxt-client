@@ -9,11 +9,10 @@ const clean = () => {
  pack.value.password = '';
  pack.value.name = '';
 };
-
-
+const config = useRuntimeConfig();
 const loginMutation = useMutation({
  mutationFn: async () => {
-  const csrfResponse = await fetch('http://127.0.0.1:8000/sanctum/csrf-cookie', {
+  const csrfResponse = await fetch(`${config.public.baseUrl}/sanctum/csrf-cookie`, {
    credentials: 'include',
   });
   if (!csrfResponse.ok) {
@@ -21,7 +20,8 @@ const loginMutation = useMutation({
   }
 
 
-  const loginResponse = await fetch('http://127.0.0.1:8000/api/login', {
+
+  const loginResponse = await fetch(`${config.public.baseUrl}/api/login`, {
    method: 'POST',
    headers: {
     'Content-Type': 'application/json',
