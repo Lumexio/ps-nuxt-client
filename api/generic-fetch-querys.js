@@ -1,27 +1,29 @@
+import { customFetch } from '@/api/custom-fetch';
+
 export function useGenericFetchQueries(endpoint) {
   const queryClient = useQueryClient();
 
   const fetchQuery = useQuery({
     queryKey: [endpoint],
-    queryFn: () => $fetch(endpoint),
+    queryFn: () => customFetch(endpoint),
   });
 
   const createMutation = useMutation({
-    mutationFn: (newData) => $fetch(endpoint, { method: "POST", body: newData }),
+    mutationFn: (newData) => customFetch(endpoint, { credentials: 'include', method: "POST", body: JSON.stringify(newData), headers: { 'Content-Type': 'application/json' } }),
     onSuccess: () => {
       queryClient.invalidateQueries([endpoint]);
     },
   });
 
   const updateMutation = useMutation({
-    mutationFn: (updatedData) => $fetch(`${endpoint}/${updatedData.id}`, { method: "PUT", body: updatedData }),
+    mutationFn: (updatedData) => customFetch(`${endpoint}/${updatedData.id}`, { credentials: 'include', method: "PUT", body: JSON.stringify(updatedData), headers: { 'Content-Type': 'application/json' } }),
     onSuccess: () => {
       queryClient.invalidateQueries([endpoint]);
     },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => $fetch(`${endpoint}/${id}`, { method: "DELETE" }),
+    mutationFn: (id) => customFetch(`${endpoint}/${id}`, { credentials: 'include', method: "DELETE" }),
     onSuccess: () => {
       queryClient.invalidateQueries([endpoint]);
     },

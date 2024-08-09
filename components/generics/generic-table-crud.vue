@@ -16,8 +16,11 @@ const selectedItem = ref(null); // Track the selected item
 const { fetchQuery, createMutation, updateMutation, deleteMutation } = useGenericFetchQueries(props.endpoint);
 
 
+onMounted(() => {
+  const fet = fetchQuery.refetch();
+  console.log(fet);
 
-
+});
 function openModal(modalMode, item = null) {
   mode.value = modalMode;
   selectedItem.value = item;

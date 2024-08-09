@@ -1,33 +1,74 @@
+<script setup>
+
+const store = useStore();
+const router = useRouter();
+let pack = ref({ password: '', name: '' });
+let isLoading = ref(false);
+
+const clean = () => {
+ pack.value.password = '';
+ pack.value.name = '';
+};
+
+
+const loginMutation = useMutation({
+ mutationFn: async () => {
+  const csrfResponse = await fetch('http://127.0.0.1:8000/sanctum/csrf-cookie', {
+   credentials: 'include',
+  });
+  if (!csrfResponse.ok) {
+   throw new Error('Network response was not ok');
+  }
+
+
+  const loginResponse = await fetch('http://127.0.0.1:8000/api/login', {
+   method: 'POST',
+   headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+   },
+   credentials: 'include',
+   body: JSON.stringify(pack.value),
+  });
+
+
+  if (!loginResponse.ok) {
+   throw new Error('Network response was not ok');
+  }
+  const data = await loginResponse.json();
+  return data;
+ },
+ onSuccess: (data) => {
+  isLoading.value = false;
+  store.setBearerToken(data.token);
+  router.push({ path: '/products' });
+ },
+ onError: (error) => {
+  isLoading.value = false;
+  console.error('Login failed:', error);
+ },
+});
+
+const login = () => {
+ isLoading.value = true;
+ loginMutation.mutate();
+};
+</script>
+
+
 <template>
  <v-card max-width="30rem" min-width="12rem">
   <v-card-title><brand-title /></v-card-title>
   <v-card-text>
-   <v-text-field variant="outlined" v-model="email" label="nombre de usuario" type="email"></v-text-field>
-   <v-text-field variant="outlined" v-model="password" label="Contraseña" type="password"></v-text-field>
+   <v-text-field variant="outlined" v-model="pack.name" label="nombre de usuario" type="name"></v-text-field>
+   <v-text-field variant="outlined" v-model="pack.password" label="Contraseña" type="password"></v-text-field>
   </v-card-text>
   <v-card-actions class="flex justify-end gap-4">
-   <v-btn color="info" variant="tonal" @click="clean">Limpiar
-    <v-icon right>mdi-eraser</v-icon>
+   <v-btn color="info" variant="tonal" @click="clean" append-icon="mdi-eraser">Limpiar
    </v-btn>
-   <v-btn color="primary" variant="tonal">Login
-    <v-icon right>mdi-login</v-icon>
+   <v-btn @click="login" color="primary" variant="tonal" append-icon="mdi-login" :loading="isLoading">Iniciar
+    sesión
    </v-btn>
   </v-card-actions>
  </v-card>
 </template>
-
-<script setup lang="ts">
-// password and email on type script notation
-// and composition api notation
-let password = ref('');
-let email = ref('');
-
-// function to clean the fields
-const clean = () => {
- password.value = '';
- email.value = '';
-}
-
-</script>
-
-<style></style>

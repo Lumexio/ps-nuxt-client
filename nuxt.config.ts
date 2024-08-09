@@ -1,12 +1,20 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
+
   devtools: { enabled: true },
   vueQuery: {
     stateKey: 'vue-query-nuxt',
     queryClientOptions: {
-      defaultOptions: { queries: { staleTime: 5000 } }, // default
+      defaultOptions: {
+        queries: {
+          staleTime: 1000 * 60 * 5,
+
+          refetchOnWindowFocus: false,
+        },
+      }, // default
     },
   },
   components: [
@@ -25,6 +33,8 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }));
       });
     },
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
     '@hebilicious/vue-query-nuxt',
     //...
   ],

@@ -1,11 +1,13 @@
 // this is temporarlily solution for auth middleware before a fetch the login method from the backend
-var localStorage = {
-  key: 'token',
+
+var localSt = {
+  // key: localStorage.getItem('token'),
+  key: 'token value',
 };
 // Example implementation of isAuthenticated function
 function isAuthenticated(): boolean {
   // Replace with actual authentication check logic
-  const token = localStorage.key;
+  const token = localSt.key;
   return token !== null;
 }
 
