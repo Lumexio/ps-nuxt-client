@@ -1,6 +1,5 @@
 <template>
-  <generic-table-crud :title="title" :columns="columns" :endPoint="endpoint" :formFields="formFields"
-    :mockData="mockData" />
+  <generic-table-crud :title="title" :columns="columns" :endpoint="endpoint" :formFields="formFields" />
 </template>
 
 <script>
@@ -18,10 +17,6 @@ export default {
       formFields: [
         { label: 'name', value: '', rules: [v => !!v || 'Name is required'] },
         { label: 'description', value: '', rules: [v => !!v || 'Description is required'] },
-      ],
-      mockData: [
-        { id: 1, name: 'Category 1', description: 'Description 1' },
-        { id: 2, name: 'Category 2', description: 'Description 2' },
       ],
     }
   },

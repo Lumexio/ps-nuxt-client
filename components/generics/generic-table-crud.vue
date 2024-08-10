@@ -17,6 +17,7 @@ const { fetchQuery, createMutation, updateMutation, deleteMutation } = useGeneri
 const items = ref(fetchQuery.data || []);
 
 
+
 function openModal(modalMode, item = null) {
   mode.value = modalMode;
   selectedItem.value = item;
@@ -24,6 +25,7 @@ function openModal(modalMode, item = null) {
 }
 const queryClient = useQueryClient();
 function updateQueryhandler() {
+
 
   updateMutation.mutate(selectedItem.value, {
     onSettled: () => {
