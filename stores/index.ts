@@ -14,8 +14,8 @@ export const useStore = defineStore({
     },
   },
   getters: {
-    isAuthenticated(): string {
-      return this.bearerToken;
+    isAuthenticated(): any {
+      return this.bearerToken || null;
     },
   },
   persist: true,

@@ -1,20 +1,26 @@
 <script setup>
 import { useGenericFetchQueries } from '~/api/generic-fetch-querys';
-const props = defineProps({
+let props = defineProps({
   title: String,
   columns: Array,
   mockData: Array,
   formFields: Array,
   endpoint: String,
+  relations: Array,
 });
 
-
 const dialog = ref(null);
-const mode = ref('create'); // Track the mode of the modal
-const selectedItem = ref(null); // Track the selected item
+const mode = ref('create');
+let selectedItem = ref(null);
 
 const { fetchQuery, createMutation, updateMutation, deleteMutation } = useGenericFetchQueries(props.endpoint, !dialog.value?.isOpen);
 const items = ref(fetchQuery.data || []);
+
+watchEffect(() => {
+
+
+
+});
 
 
 
@@ -26,8 +32,9 @@ function openModal(modalMode, item = null) {
 const queryClient = useQueryClient();
 function updateQueryhandler() {
 
+  console.log(dialog?.value?.valueItem);
 
-  updateMutation.mutate(selectedItem.value, {
+  updateMutation.mutate(dialog?.value?.valueItem, {
     onSettled: () => {
       dialog.value.handleClose();
       queryClient.invalidateQueries({ queryKey: [props.endpoint] });
@@ -51,13 +58,14 @@ function deleteQueryhandler() {
 }
 
 function createQueryhandler() {
-  createMutation.mutate(dialog.value.valueItem, {
+  console.log(dialog?.value?.valueItem);
+  createMutation.mutate(dialog?.value?.valueItem, {
     onSettled: () => {
       dialog.value.handleClose();
       queryClient.invalidateQueries({ queryKey: [props.endpoint] });
     },
     onError: (error) => {
-      console.error('Failed to create data:', error);
+      console.error('Failed to update data:', error);
     }
   });
 }
@@ -87,7 +95,7 @@ function createQueryhandler() {
             {{ data[column?.key] }}
           </td>
           <td>
-            <!-- Updated Button Code -->
+
             <v-btn @click="openModal('edit', data)" density="comfortable" color="primary" icon="mdi-pencil" />
 
             <v-btn @click="openModal('delete', data)" density="comfortable" color="error" icon="mdi-delete" />
@@ -97,7 +105,8 @@ function createQueryhandler() {
       </tbody>
     </v-table>
 
-    <modal-generic ref="dialog" :title="props.title" :formFields="props.formFields" :mode="mode" :item="selectedItem">
+    <modal-generic ref="dialog" :title="props?.title" :formFields="props?.formFields" :mode="mode" :item="selectedItem"
+      :relations="props?.relations">
       <template #buttonAction>
         <v-btn v-if="mode === 'create'" @click="createQueryhandler" color="primary" variant="tonal">
           Guardar <v-icon>mdi-check</v-icon>

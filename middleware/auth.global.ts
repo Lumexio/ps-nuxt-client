@@ -1,20 +1,11 @@
-// this is temporarlily solution for auth middleware before a fetch the login method from the backend
-
-var localSt = () => {
+function Authenticated(): boolean {
   const store = useStore();
-  return store.isAuthenticated;
-};
-// Example implementation of isAuthenticated function
-function isAuthenticated(): boolean {
-  // Replace with actual authentication check logic
-  const token = localSt;
-  return token !== null;
+  const token = store.isAuthenticated;
+  return token !== '';
 }
 
 export default defineNuxtRouteMiddleware((to, from) => {
-  // isAuthenticated() is an example method verifying if a user is authenticated
-
-  if (!isAuthenticated() && to.path !== '/login') {
+  if (!Authenticated() && to.path !== '/login') {
     return navigateTo('/login');
   }
 });

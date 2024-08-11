@@ -1,5 +1,5 @@
 <template>
-  <generic-table-crud :title="title" :columns="columns" :endPoint="endpoint" :formFields="formFields"
+  <generic-table-crud :title="title" :columns="columns" :endpoint="endpoint" :formFields="formFields"
     :mockData="mockData" />
 </template>
 
@@ -16,8 +16,8 @@ export default {
       ],
       endpoint: '/api/crossbars',
       formFields: [
-        { label: 'name', value: '', rules: [v => !!v || 'Name is required'] },
-        { label: 'description', value: '', rules: [v => !!v || 'Description is required'] },
+        { key: 'name', label: 'Nombre', value: '', rules: [v => !!v || 'Name is required'] },
+        { key: 'description', label: 'Descripción', value: '', rules: [v => !!v || 'Description is required'] },
       ],
       mockData: [
         { id: 1, name: 'Crossbar 1', description: 'Description 1' },

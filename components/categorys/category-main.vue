@@ -15,8 +15,8 @@ export default {
       ],
       endpoint: '/api/categories',
       formFields: [
-        { label: 'name', value: '', rules: [v => !!v || 'Name is required'] },
-        { label: 'description', value: '', rules: [v => !!v || 'Description is required'] },
+        { key: 'name', label: 'Nombre', value: '', rules: [v => !!v || 'Name is required'] },
+        { key: 'description', label: 'Descripción', value: '', rules: [v => !!v || 'Description is required'] },
       ],
     }
   },

@@ -1,6 +1,6 @@
 <template>
-  <generic-table-crud :title="title" :columns="columns" :endPoint="endpoint" :formFields="formFields"
-    :mockData="mockData" />
+  <generic-table-crud :title="title" :columns="columns" :endpoint="endpoint" :formFields="formFields"
+    :relations="relations" />
 </template>
 
 <script>
@@ -13,16 +13,17 @@ export default {
       columns: [
         { id: 0, key: 'id', title: 'ID' },
         { id: 1, key: 'name', title: 'Name' },
+        { id: 1, key: 'rol_name', title: 'Rol' },
       ],
-      endpoint: 'api/users',
+      endpoint: '/api/users',
+      relations: [
+        { key: 'rol_id', endpoint: '/api/rols' },
+      ],
       formFields: [
-        { label: 'name', value: '', rules: [v => !!v || 'Name is required'] },
-        { label: 'description', value: '', rules: [v => !!v || 'Description is required'] },
+        { key: 'name', label: 'Nombre', value: '', rules: [v => !!v || 'Name is required'], selector: false },
+        { key: 'rol_name', fk: 'rol_id', label: 'Rol', value: '', selector: true },
       ],
-      mockData: [
-        { id: 1, name: 'User 1', description: 'Description 1' },
-        { id: 2, name: 'User 2', description: 'Description 2' },
-      ],
+
     }
   },
 }

@@ -1,11 +1,3 @@
 <template>
-  <div>
-    users
-  </div>
+  <user-main />
 </template>
-
-<script lang="ts" setup>
-
-</script>
-
-<style></style>
