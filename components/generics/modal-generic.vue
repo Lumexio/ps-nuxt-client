@@ -4,6 +4,7 @@ import { ref, watch, watchEffect, defineProps, defineExpose, onMounted } from 'v
 import { useGenericFetchQueries } from '~/api/generic-fetch-querys';
 
 let isOpen = ref(false);
+let visible = ref(false);
 let valueItem = ref(null);
 let props = defineProps({
   title: String,
@@ -43,18 +44,17 @@ onMounted(() => {
 
 watchEffect(() => {
   valueItem.value = { ...props.item };
-
-
   if (props.mode === 'edit') {
     props.formFields.forEach((field) => {
 
       if (field.selector === true) {
         field.value = props.item[field.fk]
       } else {
-        field.value = props.item[field.key]
+
+        field.key === 'password' ? field.value = '' : field.value = props.item[field.key];
+
 
       }
-
 
     });
   } else if (props.mode === 'create') {
@@ -108,7 +108,10 @@ defineExpose({
 
             <v-select v-if="input.selector" :items="relationData[input.fk] || []" :label="input.label" item-title="name"
               item-value="id" variant="outlined" v-model="input.value"></v-select>
-
+            <v-text-field v-else-if="input.ispassword" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+              :type="visible ? 'text' : 'password'" :placeholder="input.placeholder"
+              prepend-inner-icon="mdi-lock-outline" variant="outlined" v-model="input.value" :label="input.label"
+              :rules="input.rules" @click:append-inner="visible = !visible"></v-text-field>
             <v-text-field v-else v-model="input.value" :label="input.label" :rules="input.rules" :type="input.type"
               variant="outlined"></v-text-field>
           </v-col>

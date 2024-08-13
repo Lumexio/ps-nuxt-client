@@ -77,7 +77,7 @@ function createQueryhandler() {
     <v-toolbar class="pa-2">
       <h2>{{ props.title }}</h2>
       <v-spacer></v-spacer>
-      <v-btn @click="openModal('create')" color="primary" variant="tonal">Create</v-btn>
+      <v-btn @click="openModal('create')" color="primary" variant="tonal">Crear</v-btn>
     </v-toolbar>
 
     <v-table fixed-header>

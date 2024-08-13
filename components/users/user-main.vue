@@ -21,6 +21,7 @@ export default {
       ],
       formFields: [
         { key: 'name', label: 'Nombre', value: '', rules: [v => !!v || 'Name is required'], selector: false },
+        { key: 'password', label: 'Contraseña', value: '', rules: [v => !!v || 'Contraseña requerida'], selector: false, ispassword: true, placeholder: 'Inglesa tu contraseña' },
         { key: 'rol_name', fk: 'rol_id', label: 'Rol', value: '', selector: true },
       ],
 
