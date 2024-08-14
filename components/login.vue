@@ -41,7 +41,8 @@ const loginMutation = useMutation({
  onSuccess: (data) => {
   isLoading.value = false;
   store.setBearerToken(data.token);
-  router.push({ path: '/products' });
+  store.setRole(data?.user?.rol_id);
+  router.push({ path: '/' });
  },
  onError: (error) => {
   isLoading.value = false;
