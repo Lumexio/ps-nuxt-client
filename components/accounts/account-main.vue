@@ -7,8 +7,9 @@
         </v-card-title>
         <v-card-text>
           <v-text-field variant="outlined" label="Nuevo nombre" v-model="newUserDetails.name"></v-text-field>
-          <v-text-field variant="outlined" label="Nueva contraseña" v-model="password" type="password"></v-text-field>
-          <v-text-field variant="outlined" label="Confirmar contraseña" v-model="confirmPassword"
+          <v-text-field variant="outlined" label="Contraseña actual" v-model="newUserDetails.current_password"
+            type="password"></v-text-field>
+          <v-text-field variant="outlined" label="Nueva contraseña" v-model="newUserDetails.password"
             type="password"></v-text-field>
         </v-card-text>
         <v-card-actions style="display: flex; flex-direction: row; justify-content: flex-end;">
@@ -37,25 +38,30 @@ const router = useRouter();
 let password = ref('');
 let confirmPassword = ref('');
 let newUserDetails = ref({
-  id: store.getUserDetails.id,
+
   name: '',
+  current_password: '',
   password: '',
 });
 let loading = ref(false);
 const config = useRuntimeConfig();
 
-const logout = useMutation({
 
+
+
+const logout = useMutation({
   mutationFn: async () => {
     const response = await fetch(`${config.public.baseUrl}/api/logout`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'Authorization': `Bearer ${store.isAuthenticated}`,
       },
       credentials: 'include',
     });
     loading.value = true;
+
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -80,7 +86,7 @@ const editAccount = useMutation({
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': `Bearer ${store.getBearerToken()}`,
+        'Authorization': `Bearer ${store.isAuthenticated}`,
       },
       credentials: 'include',
       body: JSON.stringify(newUserDetails.value),
