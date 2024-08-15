@@ -80,7 +80,7 @@ function createQueryhandler() {
       <v-btn @click="openModal('create')" color="primary" variant="tonal">Crear</v-btn>
     </v-toolbar>
 
-    <v-table fixed-header>
+    <v-table loading="true" fixed-header>
       <thead>
         <tr>
           <th v-for="column in props.columns" :key="column?.id">

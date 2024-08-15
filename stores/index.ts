@@ -5,6 +5,7 @@ export const useStore = defineStore({
   state: () => ({
     bearerToken: '',
     role: 0,
+    userDetails: {},
   }),
   actions: {
     setBearerToken(token: string) {
@@ -19,6 +20,17 @@ export const useStore = defineStore({
     clearRole() {
       this.role = 0;
     },
+    setUserDetails(userDetails: any) {
+      this.userDetails = userDetails;
+    },
+    clearUserDetails() {
+      this.userDetails = {};
+    },
+    logout() {
+      this.clearBearerToken();
+      this.clearRole();
+      this.clearUserDetails();
+    },
   },
   getters: {
     isAuthenticated(): any {
@@ -26,6 +38,9 @@ export const useStore = defineStore({
     },
     hasRole(): any {
       return this.role || 0;
+    },
+    getUserDetails(): any {
+      return this.userDetails || {};
     },
   },
   persist: true,

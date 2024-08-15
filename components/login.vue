@@ -39,10 +39,13 @@ const loginMutation = useMutation({
   return data;
  },
  onSuccess: (data) => {
-  isLoading.value = false;
+
   store.setBearerToken(data.token);
   store.setRole(data?.user?.rol_id);
-  router.push({ path: '/' });
+  store.setUserDetails(data?.user);
+  router.push({ path: '/' }).then(() => {
+   isLoading.value = false;
+  });
  },
  onError: (error) => {
   isLoading.value = false;
