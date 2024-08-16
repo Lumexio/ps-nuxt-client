@@ -3,7 +3,11 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
-
+  router: {
+    options: {
+      scrollBehaviorType: 'smooth',
+    },
+  },
   devtools: { enabled: true },
   vueQuery: {
     stateKey: 'vue-query-nuxt',

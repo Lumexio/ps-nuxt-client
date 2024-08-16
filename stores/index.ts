@@ -3,16 +3,16 @@ import { defineStore } from 'pinia';
 export const useStore = defineStore({
   id: 'storeIndex',
   state: () => ({
-    bearerToken: '',
+    bearerToken: null,
     role: 0,
     userDetails: {},
   }),
   actions: {
-    setBearerToken(token: string) {
+    setBearerToken(token: any) {
       this.bearerToken = token;
     },
     clearBearerToken() {
-      this.bearerToken = '';
+      this.bearerToken = null;
     },
     setRole(role: number) {
       this.role = role;

@@ -16,14 +16,9 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   if (!isAuthenticated && to.path !== '/login') {
     return navigateTo('/login');
-  } else if (isAuthenticated && to.path === '/login') {
-    if (role === 1) {
-      console.log('User', role);
-      return navigateTo('/user');
-    } else if (role === 2) {
-      return navigateTo('/products');
-    }
-  } else if (to.path === '/') {
-    return navigateTo('/login');
-  } else if (from.path === '/') return navigateTo('/login');
+  }
+
+  if (isAuthenticated && role != 1 && to.path == '/user') {
+    return navigateTo(from.path);
+  }
 });
