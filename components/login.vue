@@ -2,6 +2,7 @@
 
 const store = useStore();
 const router = useRouter();
+const snackbar = useSnackbar();
 let pack = ref({ password: '', name: '' });
 let isLoading = ref(false);
 
@@ -43,6 +44,10 @@ const loginMutation = useMutation({
   store.setBearerToken(data.token);
   store.setRole(data?.user?.rol_id);
   store.setUserDetails(data?.user);
+  snackbar.add({
+   type: 'success',
+   text: 'Sesión iniciada correctamente'
+  })
   router.push({ path: '/' }).then(() => {
    isLoading.value = false;
   });
@@ -50,6 +55,10 @@ const loginMutation = useMutation({
  onError: (error) => {
   isLoading.value = false;
   console.error('Login failed:', error);
+  snackbar.add({
+   type: 'error',
+   text: 'Se ha producido un error al iniciar sesión'
+  })
  },
 });
 

@@ -3,7 +3,6 @@
   justify-content: center;
   align-items: center;
   height: 100vh !important;
-  background-color: transparent;
 }
 .custom-h1 {
   font-size: calc(2rem + 1vw);

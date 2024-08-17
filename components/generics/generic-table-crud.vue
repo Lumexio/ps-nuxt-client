@@ -8,19 +8,13 @@ let props = defineProps({
   endpoint: String,
   relations: Array,
 });
-
+const snackbar = useSnackbar();
 const dialog = ref(null);
 const mode = ref('create');
 let selectedItem = ref(null);
 
 const { fetchQuery, createMutation, updateMutation, deleteMutation } = useGenericFetchQueries(props.endpoint, !dialog.value?.isOpen);
 const items = ref(fetchQuery.data || []);
-
-watchEffect(() => {
-
-
-
-});
 
 
 
@@ -32,15 +26,22 @@ function openModal(modalMode, item = null) {
 const queryClient = useQueryClient();
 function updateQueryhandler() {
 
-  console.log(dialog?.value?.valueItem);
 
   updateMutation.mutate(dialog?.value?.valueItem, {
     onSettled: () => {
       dialog.value.handleClose();
+      snackbar.add({
+        type: 'success',
+        text: 'Registro actualizado correctamente',
+      });
       queryClient.invalidateQueries({ queryKey: [props.endpoint] });
     },
     onError: (error) => {
       console.error('Failed to update data:', error);
+      snackbar.add({
+        type: 'error',
+        text: 'Se ha producido un error al actualizar el registro',
+      });
     }
   });
 }
@@ -49,10 +50,18 @@ function deleteQueryhandler() {
   deleteMutation.mutate(selectedItem.value.id, {
     onSettled: () => {
       dialog.value.handleClose();
+      snackbar.add({
+        type: 'success',
+        text: 'Registro eliminado correctamente',
+      });
       queryClient.invalidateQueries({ queryKey: [props.endpoint] });
     },
     onError: (error) => {
       console.error('Failed to delete data:', error);
+      snackbar.add({
+        type: 'error',
+        text: 'Se ha producido un error al eliminar el registro',
+      });
     }
   });
 }
@@ -62,10 +71,18 @@ function createQueryhandler() {
   createMutation.mutate(dialog?.value?.valueItem, {
     onSettled: () => {
       dialog.value.handleClose();
+      snackbar.add({
+        type: 'success',
+        text: 'Registro creado correctamente',
+      });
       queryClient.invalidateQueries({ queryKey: [props.endpoint] });
     },
     onError: (error) => {
       console.error('Failed to update data:', error);
+      snackbar.add({
+        type: 'error',
+        text: 'Se ha producido un error al crear el registro',
+      });
     }
   });
 }

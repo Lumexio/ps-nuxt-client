@@ -5,6 +5,19 @@ import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
 
 export default defineNuxtPlugin((app) => {
-  const vuetify = createVuetify({});
+  const vuetify = createVuetify({
+    theme: {
+      defaultTheme: 'system',
+      themes: {
+        dark: {
+          dark: true,
+        },
+
+        system: {
+          dark: true,
+        },
+      },
+    },
+  });
   app.vueApp.use(vuetify);
 });

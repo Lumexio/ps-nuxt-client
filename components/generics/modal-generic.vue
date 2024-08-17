@@ -1,5 +1,5 @@
 <script setup>
-import { cloneDeep } from 'lodash-es';
+
 import { ref, watch, watchEffect, defineProps, defineExpose, onMounted } from 'vue';
 import { useGenericFetchQueries } from '~/api/generic-fetch-querys';
 
@@ -51,7 +51,7 @@ watchEffect(() => {
         field.value = props.item[field.fk]
       } else {
 
-        field.key === 'password' ? field.value = '' : field.value = props.item[field.key];
+        field.ispassword == true ? field.value = '' : field.value = props.item[field.key];
 
 
       }

@@ -3,6 +3,7 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
+  css: ['vuetify/styles'],
   router: {
     options: {
       scrollBehaviorType: 'smooth',
@@ -35,7 +36,11 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
-
+  snackbar: {
+    bottom: true,
+    right: true,
+    duration: 3000,
+  },
   modules: [
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
@@ -45,6 +50,7 @@ export default defineNuxtConfig({
     },
 
     '@pinia/nuxt',
+    'nuxt-snackbar',
     '@pinia-plugin-persistedstate/nuxt',
     '@hebilicious/vue-query-nuxt',
     //...
