@@ -1,0 +1,20 @@
+name: master
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on:
+      - self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: |
+          npm install
+          npm run build
+          rm -R /opt/ps-frontend/current/*
+          mv dist/ /opt/ps-frontend/current
+      - name: Run a multi-line script
+        run: |
+          echo "${{ github.workspace }}"
